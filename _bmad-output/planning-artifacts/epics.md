@@ -26,6 +26,7 @@ FR10: Request a best move hint (identifies win, block, or center-preferred move)
 FR11: Post-match AI Coach analysis (names missed threats, winning moves, or decisive tactical moments).
 FR12: Reward flow (badges, mock promo codes, bonus cards) after win or milestone.
 FR13: View match history / leaderboard (backed by Supabase).
+FR14: User Authentication (Google/Email) and Profile management (City, Display Name).
 
 ### NonFunctional Requirements
 
@@ -74,6 +75,7 @@ FR10: Epic 2 - Player best move hints.
 FR11: Epic 2 - Post-match AI Coach insights.
 FR12: Epic 3 - Reward granting flow (badges/promo).
 FR13: Epic 3 - Match history and leaderboard (Supabase).
+FR14: Epic 3 - User Auth and Profiles.
 UX-DR1: Epic 4 - Liquid Glass theme implementation.
 UX-DR2: Epic 4 - High-contrast board and discs.
 UX-DR3: Epic 4 - Accessible column buttons.
@@ -296,6 +298,21 @@ So that I can track my growth over time.
 **When** I visit the Leaderboard or Profile page
 **Then** I see a list of recent matches and a city-wide rank (mock or real).
 **And** the data is fetched asynchronously with loading states.
+
+### Story 3.5: User Authentication & Profiles
+
+As a player,
+I want to sign in with my Google account and set my city,
+So that my wins are tracked against my profile and I can see my rank in my city.
+
+**Acceptance Criteria:**
+
+**Given** a guest player
+**When** I click "Sign In with Google"
+**Then** I am redirected to Supabase Auth.
+**And** upon return, a row is created in the `profiles` table with my email and metadata.
+**When** I complete a match while signed in
+**Then** the match summary in Supabase includes my `user_id`.
 
 ## Epic 4: Visual Polish & Mobile UI
 

@@ -5,9 +5,14 @@ import { UI_CONFIG } from '@/lib/config/ui';
 import { getNextBotMove } from '@/lib/game/bot';
 import { shouldQueueBotMove } from '@/lib/game/bot-turn';
 import { createInitialMatchState, matchReducer } from '@/lib/game/reducer';
+import { selectReward } from '@/lib/game/rewards';
+import { saveMatchSummary } from '@/lib/supabase/matches';
 import { Difficulty, GameMode } from '@/types/game';
+import { MatchStatus, MatchSummary } from '@/types/supabase';
+import { useAuth } from './use-auth';
 
 export function useMatchReducer() {
+    const { user } = useAuth();
     const [state, dispatch] = useReducer(matchReducer, undefined, createInitialMatchState);
     const [isBotThinking, setIsBotThinking] = useState(false);
     const isBotThinkingRef = useRef(false);
@@ -58,6 +63,47 @@ export function useMatchReducer() {
             setIsBotThinking(false);
         };
     }, [board, currentPlayer, difficulty, isAnimating, mode, phase]);
+    const savedMatchIdRef = useRef<string | null>(null);
+
+    useEffect(() => {
+        const isGameOver = phase === 'won' || phase === 'draw';
+        if (!isGameOver || savedMatchIdRef.current === state.id) {
+            return;
+        }
+
+        savedMatchIdRef.current = state.id;
+
+        const reward = selectReward({
+            winner: state.winner,
+            mode: state.mode,
+            difficulty: state.difficulty,
+            move_count: state.moves.length,
+        }, false);
+
+        if (reward) {
+            dispatch({ type: 'SET_REWARD', reward });
+        }
+
+        const status: MatchStatus = phase === 'won' ? 'won' : 'draw';
+        const summary: MatchSummary = {
+            id: state.id,
+            game_mode: state.mode,
+            player_1_id: user?.id ?? null,
+            player_2_id: null, // Roadmap: online opponent ID
+            bot_difficulty: state.mode === 'bot' ? state.difficulty : null,
+            status,
+            winner_id: state.winner === 'player1' ? (user?.id ?? null) : null,
+            move_count: state.moves.length,
+            coach_insight: null,
+            reward_label: reward?.label ?? null,
+        };
+
+        saveMatchSummary(summary).then(result => {
+            if (result.ok) {
+                console.log('Match persisted successfully:', result.data.id);
+            }
+        });
+    }, [phase, state.id, state.mode, state.winner, state.moves.length, state.difficulty, user?.id]);
 
     const dropDisc = useCallback((column: number) => {
         dispatch({ type: 'DROP_DISC', column });

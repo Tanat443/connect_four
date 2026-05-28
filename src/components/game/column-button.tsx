@@ -18,8 +18,8 @@ export function ColumnButton({ column, disabled, isHinted = false, onSelect }: C
             variant="secondary"
             size="icon-sm"
             className={cn(
-                "h-8 w-full rounded-md",
-                isHinted && "animate-pulse border-primary bg-primary/20 shadow-lg shadow-primary/40 ring-2 ring-primary/60"
+                "h-8 w-full rounded-md border-border/60 bg-background/70 shadow-sm hover:bg-secondary",
+                isHinted && "animate-pulse border-primary bg-primary/20 shadow-lg shadow-primary/35 ring-2 ring-primary/70 ring-offset-2 ring-offset-background"
             )}
             aria-label={`Drop disc in column ${column + 1}`}
             aria-describedby={isHinted ? `hint-column-${column + 1}` : undefined}

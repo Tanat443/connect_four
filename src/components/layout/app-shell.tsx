@@ -2,6 +2,7 @@ import Link from "next/link"
 import { CakeSlice } from "lucide-react"
 
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { UserNav } from "@/components/layout/user-nav"
 import { Button } from "@/components/ui/button"
 
 const navItems = [
@@ -12,15 +13,15 @@ const navItems = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-svh bg-background text-foreground">
-      <header className="sticky top-0 z-20 border-b border-border/70 bg-background/82 backdrop-blur-xl">
+    <div className="min-h-svh text-foreground">
+      <header className="glass-nav sticky top-0 z-20 border-b">
         <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center gap-3 px-4 sm:px-6">
           <Link
             href="/"
             className="flex min-w-0 items-center gap-2 font-semibold"
             aria-label="Connect Four Tatti home"
           >
-            <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground">
+            <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm shadow-primary/25 ring-1 ring-primary-foreground/20">
               <CakeSlice className="size-4" aria-hidden="true" />
             </span>
             <span className="truncate">Connect Four Tatti</span>
@@ -38,6 +39,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <ThemeToggle />
+          <UserNav />
         </div>
       </header>
 
@@ -46,7 +48,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-20 border-t border-border/70 bg-background/88 px-3 py-2 backdrop-blur-xl sm:hidden"
+        className="glass-nav fixed inset-x-0 bottom-0 z-20 border-t px-3 py-2 sm:hidden"
         aria-label="Mobile navigation"
       >
         <div className="mx-auto grid max-w-md grid-cols-3 gap-2">

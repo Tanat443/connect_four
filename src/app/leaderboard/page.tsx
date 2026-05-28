@@ -9,7 +9,7 @@ import {
 export default function LeaderboardPage() {
   return (
     <AppShell>
-      <Card className="glass-panel">
+      <Card className="glass-panel border">
         <CardHeader>
           <CardTitle>Leaderboard</CardTitle>
           <CardDescription>

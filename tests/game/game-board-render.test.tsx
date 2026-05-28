@@ -38,6 +38,7 @@ describe('Connect Four - Game Board Rendering', () => {
                 phase="playing"
                 isAnimating={false}
                 isInteractionDisabled={true}
+                winningLine={null}
                 onColumnSelect={() => undefined}
             />
         );
@@ -52,6 +53,7 @@ describe('Connect Four - Game Board Rendering', () => {
                 phase="playing"
                 isAnimating={false}
                 hintColumn={3}
+                winningLine={null}
                 onColumnSelect={() => undefined}
             />
         );
@@ -59,5 +61,21 @@ describe('Connect Four - Game Board Rendering', () => {
         expect(html).toContain('data-hinted-column="true"');
         expect(html).toContain('Suggested by Minimax hint');
         expect(html).toContain('animate-pulse');
+    });
+
+    it('keeps the board as a high-contrast surface instead of a glass panel', () => {
+        const html = renderToStaticMarkup(
+            <GameBoard
+                board={createEmptyBoard()}
+                phase="playing"
+                isAnimating={false}
+                winningLine={null}
+                onColumnSelect={() => undefined}
+            />
+        );
+
+        expect(html).toContain('data-board-surface="high-contrast"');
+        expect(html).toContain('high-contrast-board');
+        expect(html).not.toContain('glass-panel');
     });
 });

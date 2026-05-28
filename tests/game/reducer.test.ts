@@ -5,18 +5,20 @@ import { MatchState } from '@/types/game';
 
 describe('Connect Four - Match Reducer', () => {
     it('creates an idle empty match state for player 1', () => {
-        expect(createInitialMatchState()).toEqual<MatchState>({
+        expect(createInitialMatchState()).toMatchObject({
             board: createEmptyBoard(),
             currentPlayer: 'player1',
             phase: 'idle',
             moves: [],
             winner: null,
-            winningLine: [],
+            winningLine: null,
             isAnimating: false,
             hintColumn: null,
-            mode: 'pvp',
+            mode: 'local',
             difficulty: 'easy',
+            reward: null,
         });
+        expect(createInitialMatchState().id).toEqual(expect.any(String));
     });
 
     it('drops a disc from idle, starts play, and switches to player 2', () => {
@@ -57,13 +59,19 @@ describe('Connect Four - Match Reducer', () => {
     it('resets the match to a fresh idle state', () => {
         const state = matchReducer(createInitialMatchState(), { type: 'DROP_DISC', column: 0 });
 
-        expect(matchReducer(state, { type: 'RESET_MATCH' })).toEqual(createInitialMatchState());
+        expect(matchReducer(state, { type: 'RESET_MATCH' })).toMatchObject({
+            ...createInitialMatchState(),
+            id: expect.any(String),
+        });
     });
 
     it('resets while preserving selected bot mode and difficulty', () => {
-        const state = matchReducer(createInitialMatchState('pvc', 'hard'), { type: 'DROP_DISC', column: 0 });
+        const state = matchReducer(createInitialMatchState('bot', 'hard'), { type: 'DROP_DISC', column: 0 });
 
-        expect(matchReducer(state, { type: 'RESET_MATCH' })).toEqual(createInitialMatchState('pvc', 'hard'));
+        expect(matchReducer(state, { type: 'RESET_MATCH' })).toMatchObject({
+            ...createInitialMatchState('bot', 'hard'),
+            id: expect.any(String),
+        });
     });
 
     it('resets winner and winning line after a completed match', () => {
@@ -87,6 +95,9 @@ describe('Connect Four - Match Reducer', () => {
             ],
         } satisfies MatchState;
 
-        expect(matchReducer(wonState, { type: 'RESET_MATCH' })).toEqual(createInitialMatchState());
+        expect(matchReducer(wonState, { type: 'RESET_MATCH' })).toMatchObject({
+            ...createInitialMatchState(),
+            id: expect.any(String),
+        });
     });
 });

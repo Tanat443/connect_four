@@ -4,7 +4,7 @@ type BotTurnState = Pick<MatchState, 'currentPlayer' | 'isAnimating' | 'mode' | 
 
 export function shouldQueueBotMove(state: BotTurnState, isBotThinking: boolean): boolean {
     return (
-        state.mode === 'pvc' &&
+        state.mode === 'bot' &&
         state.currentPlayer === 'player2' &&
         state.phase === 'playing' &&
         !state.isAnimating &&

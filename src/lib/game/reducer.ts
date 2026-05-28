@@ -2,26 +2,30 @@ import { createEmptyBoard } from '@/lib/game/board';
 import { applyMove } from '@/lib/game/rules';
 import { getHintMove } from '@/lib/game/hints';
 import { checkWin, isDraw } from '@/lib/game/win-detection';
-import { Difficulty, GameMode, MatchState } from '@/types/game';
+import { Difficulty, GameMode, MatchState, Reward } from '@/types/game';
 
 export type MatchAction =
     | { type: 'DROP_DISC'; column: number }
     | { type: 'SHOW_HINT' }
     | { type: 'FINISH_ANIMATION' }
-    | { type: 'RESET_MATCH'; mode?: GameMode; difficulty?: Difficulty };
+    | { type: 'RESET_MATCH'; mode?: GameMode; difficulty?: Difficulty }
+    | { type: 'RESTART_MATCH' }
+    | { type: 'SET_REWARD'; reward: Reward };
 
-export function createInitialMatchState(mode: GameMode = 'pvp', difficulty: Difficulty = 'easy'): MatchState {
+export function createInitialMatchState(mode: GameMode = 'local', difficulty: Difficulty = 'easy'): MatchState {
     return {
+        id: crypto.randomUUID(),
         board: createEmptyBoard(),
         currentPlayer: 'player1',
         phase: 'idle',
         moves: [],
-        winner: null,
-        winningLine: [],
-        isAnimating: false,
-        hintColumn: null,
-        mode,
         difficulty,
+        winner: null,
+        winningLine: null,
+        hintColumn: null,
+        reward: null,
+        mode,
+        isAnimating: false,
     };
 }
 
@@ -41,6 +45,14 @@ export function matchReducer(state: MatchState, action: MatchAction): MatchState
                 action.mode ?? state.mode,
                 action.difficulty ?? state.difficulty
             );
+        case 'RESTART_MATCH':
+            return createInitialMatchState(state.mode, state.difficulty);
+        case 'SET_REWARD': {
+            return {
+                ...state,
+                reward: action.reward,
+            };
+        }
         default:
             return state;
     }

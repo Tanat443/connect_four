@@ -12,7 +12,7 @@ interface GameBoardProps {
     isAnimating: boolean;
     isInteractionDisabled?: boolean;
     hintColumn?: number | null;
-    winningLine?: [number, number][];
+    winningLine: [number, number][] | null;
     onColumnSelect: (column: number) => void;
 }
 
@@ -22,11 +22,11 @@ export function GameBoard({
     isAnimating,
     isInteractionDisabled = false,
     hintColumn = null,
-    winningLine = [],
+    winningLine = null,
     onColumnSelect,
 }: GameBoardProps) {
     const isPlayable = phase === 'idle' || phase === 'playing';
-    const winningCells = new Set(winningLine.map(([row, column]) => `${row}-${column}`));
+    const winningCells = new Set((winningLine ?? []).map(([row, column]) => `${row}-${column}`));
 
     return (
         <div className="grid gap-2">
@@ -43,7 +43,8 @@ export function GameBoard({
             </div>
 
             <div
-                className="grid aspect-[7/6] w-full grid-cols-7 gap-1.5 rounded-lg bg-board p-2 shadow-inner sm:gap-2 sm:p-3"
+                className="high-contrast-board grid aspect-[7/6] w-full grid-cols-7 gap-1.5 rounded-lg bg-board p-2 sm:gap-2 sm:p-3"
+                data-board-surface="high-contrast"
                 aria-label="Connect Four board"
                 role="grid"
             >

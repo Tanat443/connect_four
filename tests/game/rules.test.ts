@@ -5,14 +5,18 @@ import { MatchState } from '@/types/game';
 
 describe('Connect Four - Core Rules', () => {
     const createInitialState = (): MatchState => ({
+        id: 'test-match',
         board: createEmptyBoard(),
         currentPlayer: 'player1',
         phase: 'playing',
         moves: [],
         winner: null,
-        winningLine: [],
+        winningLine: null,
         isAnimating: false,
         hintColumn: null,
+        mode: 'local',
+        difficulty: 'easy',
+        reward: null,
     });
 
     describe('applyMove', () => {

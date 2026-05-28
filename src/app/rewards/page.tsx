@@ -9,7 +9,7 @@ import {
 export default function RewardsPage() {
   return (
     <AppShell>
-      <Card className="glass-panel">
+      <Card className="glass-panel border">
         <CardHeader>
           <CardTitle>Rewards</CardTitle>
           <CardDescription>

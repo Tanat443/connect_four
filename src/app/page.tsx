@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <AppShell>
       <section className="grid gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)]">
-        <Card className="glass-panel overflow-hidden">
+        <Card className="glass-panel overflow-hidden border">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl">Quick Play</CardTitle>
             <CardDescription>
@@ -22,7 +22,10 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid aspect-[7/6] w-full grid-cols-7 gap-2 rounded-lg bg-board p-3 shadow-inner">
+            <div
+              className="high-contrast-board grid aspect-[7/6] w-full grid-cols-7 gap-2 rounded-lg bg-board p-3"
+              data-board-surface="high-contrast"
+            >
               {Array.from({ length: 42 }).map((_, index) => (
                 <div
                   key={index}
@@ -35,7 +38,7 @@ export default function Home() {
         </Card>
 
         <div className="grid gap-4">
-          <Card className="glass-panel">
+          <Card className="glass-panel border">
             <CardHeader>
               <CardTitle>Match Setup</CardTitle>
               <CardDescription>
@@ -52,7 +55,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="glass-panel">
+          <Card className="glass-panel border">
             <CardHeader>
               <CardTitle>Progress</CardTitle>
               <CardDescription>
