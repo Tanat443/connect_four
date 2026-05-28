@@ -1,5 +1,5 @@
 # generated: 2026-05-28T14:59:50+05:00
-# last_updated: 2026-05-28T17:55:00+05:00
+# last_updated: 2026-05-28T19:05:00+05:00
 # project: connect_four
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-05-28T14:59:50+05:00
-last_updated: 2026-05-28T17:55:00+05:00
+last_updated: 2026-05-28T19:05:00+05:00
 project: connect_four
 project_key: NOKEY
 tracking_system: file-system
@@ -50,11 +50,11 @@ development_status:
   1-5-win-visuals-game-over-flow: done
   epic-1-retrospective: optional
 
-  epic-2: backlog
-  2-1-shared-tactical-analysis-engine-pure-ts: backlog
-  2-2-easy-medium-bot-opponents: backlog
-  2-3-player-hint-system: backlog
-  2-4-post-match-ai-coach: backlog
+  epic-2: in-progress
+  2-1-shared-tactical-analysis-engine-pure-ts: done
+  2-2-easy-medium-bot-opponents: review
+  2-3-player-hint-system: review
+  2-4-post-match-ai-coach: ready-for-dev
   epic-2-retrospective: optional
 
   epic-3: backlog

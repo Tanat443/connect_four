@@ -13,6 +13,9 @@ describe('Connect Four - Match Reducer', () => {
             winner: null,
             winningLine: [],
             isAnimating: false,
+            hintColumn: null,
+            mode: 'pvp',
+            difficulty: 'easy',
         });
     });
 
@@ -55,6 +58,12 @@ describe('Connect Four - Match Reducer', () => {
         const state = matchReducer(createInitialMatchState(), { type: 'DROP_DISC', column: 0 });
 
         expect(matchReducer(state, { type: 'RESET_MATCH' })).toEqual(createInitialMatchState());
+    });
+
+    it('resets while preserving selected bot mode and difficulty', () => {
+        const state = matchReducer(createInitialMatchState('pvc', 'hard'), { type: 'DROP_DISC', column: 0 });
+
+        expect(matchReducer(state, { type: 'RESET_MATCH' })).toEqual(createInitialMatchState('pvc', 'hard'));
     });
 
     it('resets winner and winning line after a completed match', () => {

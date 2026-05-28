@@ -30,4 +30,34 @@ describe('Connect Four - Game Board Rendering', () => {
         expect(html.match(/data-winning-cell="true"/g)).toHaveLength(4);
         expect(html).toContain('ring-winner-ring');
     });
+
+    it('disables column controls when interaction is externally locked', () => {
+        const html = renderToStaticMarkup(
+            <GameBoard
+                board={createEmptyBoard()}
+                phase="playing"
+                isAnimating={false}
+                isInteractionDisabled={true}
+                onColumnSelect={() => undefined}
+            />
+        );
+
+        expect(html.match(/disabled=""/g)).toHaveLength(7);
+    });
+
+    it('marks a hinted column with a non-color visual indicator', () => {
+        const html = renderToStaticMarkup(
+            <GameBoard
+                board={createEmptyBoard()}
+                phase="playing"
+                isAnimating={false}
+                hintColumn={3}
+                onColumnSelect={() => undefined}
+            />
+        );
+
+        expect(html).toContain('data-hinted-column="true"');
+        expect(html).toContain('Suggested by Minimax hint');
+        expect(html).toContain('animate-pulse');
+    });
 });

@@ -10,11 +10,21 @@ interface GameBoardProps {
     board: Board;
     phase: MatchPhase;
     isAnimating: boolean;
+    isInteractionDisabled?: boolean;
+    hintColumn?: number | null;
     winningLine?: [number, number][];
     onColumnSelect: (column: number) => void;
 }
 
-export function GameBoard({ board, phase, isAnimating, winningLine = [], onColumnSelect }: GameBoardProps) {
+export function GameBoard({
+    board,
+    phase,
+    isAnimating,
+    isInteractionDisabled = false,
+    hintColumn = null,
+    winningLine = [],
+    onColumnSelect,
+}: GameBoardProps) {
     const isPlayable = phase === 'idle' || phase === 'playing';
     const winningCells = new Set(winningLine.map(([row, column]) => `${row}-${column}`));
 
@@ -25,7 +35,8 @@ export function GameBoard({ board, phase, isAnimating, winningLine = [], onColum
                     <ColumnButton
                         key={column}
                         column={column}
-                        disabled={!isPlayable || isAnimating || isColumnFull(board, column)}
+                        isHinted={hintColumn === column}
+                        disabled={!isPlayable || isAnimating || isInteractionDisabled || isColumnFull(board, column)}
                         onSelect={onColumnSelect}
                     />
                 ))}

@@ -4,6 +4,9 @@ export type Board = PlayerId[][];
 
 export type MatchPhase = 'idle' | 'playing' | 'won' | 'draw' | 'review' | 'rewarded';
 
+export type Difficulty = 'easy' | 'medium' | 'hard';
+export type GameMode = 'pvp' | 'pvc';
+
 export interface MatchState {
     board: Board;
     currentPlayer: PlayerId;
@@ -12,6 +15,9 @@ export interface MatchState {
     winner: PlayerId;
     winningLine: [number, number][];
     isAnimating: boolean;
+    hintColumn: number | null;
+    difficulty?: Difficulty;
+    mode?: GameMode;
 }
 
 export type GameErrorCode = 'FULL_COLUMN' | 'GAME_OVER' | 'INVALID_STATE';

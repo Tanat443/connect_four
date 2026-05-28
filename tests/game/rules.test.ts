@@ -12,6 +12,7 @@ describe('Connect Four - Core Rules', () => {
         winner: null,
         winningLine: [],
         isAnimating: false,
+        hintColumn: null,
     });
 
     describe('applyMove', () => {

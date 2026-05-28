@@ -1,6 +1,6 @@
 "use client";
 
-import { RotateCcw } from 'lucide-react';
+import { Lightbulb, RotateCcw } from 'lucide-react';
 import { AppShell } from '@/components/layout/app-shell';
 import { GameBoard } from '@/components/game/game-board';
 import { Button } from '@/components/ui/button';
@@ -13,24 +13,48 @@ import {
 } from '@/components/ui/card';
 import { GAME_LABELS } from '@/lib/config/labels';
 import { useMatchReducer } from '@/hooks/use-match-reducer';
+import { Difficulty, GameMode, MatchPhase } from '@/types/game';
+
+const MODE_OPTIONS: Array<{ value: GameMode; label: string }> = [
+    { value: 'pvp', label: GAME_LABELS.playerVsPlayer },
+    { value: 'pvc', label: GAME_LABELS.playerVsBot },
+];
+
+const DIFFICULTY_OPTIONS: Array<{ value: Difficulty; label: string }> = [
+    { value: 'easy', label: GAME_LABELS.easy },
+    { value: 'medium', label: GAME_LABELS.medium },
+    { value: 'hard', label: GAME_LABELS.hard },
+];
 
 export default function GamePage() {
-    const { state, dropDisc, resetMatch } = useMatchReducer();
-    const currentPlayerLabel = state.currentPlayer === 'player1' ? GAME_LABELS.player1 : GAME_LABELS.player2;
-    const winnerLabel = state.winner === 'player1' ? GAME_LABELS.player1 : GAME_LABELS.player2;
+    const { state, isBotThinking, dropDisc, resetMatch, showHint, setMode, setDifficulty } = useMatchReducer();
+    const isBotMode = state.mode === 'pvc';
     const isGameOver = state.phase === 'won' || state.phase === 'draw';
+    const isBotTurn = isBotMode && state.currentPlayer === 'player2' && !isGameOverPhase(state.phase);
+    const currentPlayerLabel = isBotTurn
+        ? GAME_LABELS.botPlayer
+        : state.currentPlayer === 'player1'
+            ? GAME_LABELS.player1
+            : GAME_LABELS.player2;
+    const winnerLabel = state.winner === 'player1' ? GAME_LABELS.player1 : GAME_LABELS.player2;
     const matchDescription = isGameOver
         ? GAME_LABELS.gameOver
         : state.phase === 'idle'
             ? GAME_LABELS.player1Starts
-            : `${currentPlayerLabel}${GAME_LABELS.turnSuffix}`;
+            : isBotThinking
+                ? GAME_LABELS.botThinking
+                : `${currentPlayerLabel}${GAME_LABELS.turnSuffix}`;
     const statusDescription = state.phase === 'won'
         ? `${winnerLabel}${GAME_LABELS.winsSuffix}`
         : state.phase === 'draw'
             ? GAME_LABELS.drawSuffix
-            : state.isAnimating
-                ? GAME_LABELS.discSettling
-                : `${currentPlayerLabel}${GAME_LABELS.readySuffix}`;
+            : isBotThinking
+                ? GAME_LABELS.botPlaying
+                : state.isAnimating
+                    ? GAME_LABELS.discSettling
+                    : `${currentPlayerLabel}${GAME_LABELS.readySuffix}`;
+    const isBoardInteractionDisabled = isBotTurn || isBotThinking;
+    const isHintDisabled = isGameOver || state.isAnimating || isBotThinking || isBotTurn;
 
     return (
         <AppShell>
@@ -45,13 +69,60 @@ export default function GamePage() {
                             board={state.board}
                             phase={state.phase}
                             isAnimating={state.isAnimating}
+                            isInteractionDisabled={isBoardInteractionDisabled}
                             winningLine={state.winningLine}
+                            hintColumn={state.hintColumn}
                             onColumnSelect={dropDisc}
                         />
                     </CardContent>
                 </Card>
 
                 <div className="grid content-start gap-4">
+                    <Card className="glass-panel">
+                        <CardHeader>
+                            <CardTitle>{GAME_LABELS.matchSettings}</CardTitle>
+                            <CardDescription>
+                                {isBotMode ? GAME_LABELS.playerVsBot : GAME_LABELS.playerVsPlayer}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="grid gap-4">
+                            <div className="grid gap-2">
+                                <div className="text-sm text-muted-foreground">{GAME_LABELS.modeHeader}</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {MODE_OPTIONS.map(option => (
+                                        <Button
+                                            key={option.value}
+                                            type="button"
+                                            variant={state.mode === option.value ? 'default' : 'outline'}
+                                            aria-pressed={state.mode === option.value}
+                                            onClick={() => setMode(option.value)}
+                                        >
+                                            {option.label}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="grid gap-2">
+                                <div className="text-sm text-muted-foreground">{GAME_LABELS.botDifficulty}</div>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {DIFFICULTY_OPTIONS.map(option => (
+                                        <Button
+                                            key={option.value}
+                                            type="button"
+                                            variant={state.difficulty === option.value ? 'default' : 'outline'}
+                                            aria-pressed={state.difficulty === option.value}
+                                            disabled={!isBotMode}
+                                            onClick={() => setDifficulty(option.value)}
+                                        >
+                                            {option.label}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
                     <Card className="glass-panel">
                         <CardHeader>
                             <CardTitle>{GAME_LABELS.matchStatus}</CardTitle>
@@ -79,15 +150,40 @@ export default function GamePage() {
                                     <div className="text-muted-foreground">{GAME_LABELS.movesHeader}</div>
                                     <div className="font-medium">{state.moves.length}</div>
                                 </div>
+                                <div className="rounded-lg border border-border/70 bg-background/55 p-3">
+                                    <div className="text-muted-foreground">{GAME_LABELS.modeHeader}</div>
+                                    <div className="font-medium">
+                                        {isBotMode ? GAME_LABELS.playerVsBot : GAME_LABELS.playerVsPlayer}
+                                    </div>
+                                </div>
+                                <div className="rounded-lg border border-border/70 bg-background/55 p-3">
+                                    <div className="text-muted-foreground">{GAME_LABELS.difficultyHeader}</div>
+                                    <div className="font-medium capitalize">{state.difficulty}</div>
+                                </div>
                             </div>
-                            <Button type="button" variant="outline" onClick={resetMatch}>
-                                <RotateCcw className="size-4" aria-hidden="true" />
-                                {isGameOver ? GAME_LABELS.restartMatch : GAME_LABELS.resetMatch}
-                            </Button>
+                            <div className="grid grid-cols-2 gap-3">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    disabled={isHintDisabled}
+                                    onClick={showHint}
+                                >
+                                    <Lightbulb className="size-4" aria-hidden="true" />
+                                    {GAME_LABELS.hint}
+                                </Button>
+                                <Button type="button" variant="outline" onClick={resetMatch}>
+                                    <RotateCcw className="size-4" aria-hidden="true" />
+                                    {isGameOver ? GAME_LABELS.restartMatch : GAME_LABELS.resetMatch}
+                                </Button>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
             </section>
         </AppShell>
     );
+}
+
+function isGameOverPhase(phase: MatchPhase): boolean {
+    return phase === 'won' || phase === 'draw';
 }
