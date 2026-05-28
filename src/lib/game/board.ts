@@ -1,4 +1,4 @@
-import { Board, PlayerId } from '@/types/game';
+import { Board } from '@/types/game';
 import { ROWS, COLUMNS } from '@/lib/config/game';
 
 export function createEmptyBoard(): Board {

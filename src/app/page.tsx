@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,7 +43,9 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-3">
-              <Button className="w-full">Start Local Match</Button>
+              <Button className="w-full" asChild>
+                <Link href="/game">Start Local Match</Link>
+              </Button>
               <Button className="w-full" variant="secondary">
                 Practice vs Bot
               </Button>

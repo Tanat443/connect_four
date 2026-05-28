@@ -11,6 +11,7 @@ export interface MatchState {
     moves: number[];
     winner: PlayerId;
     winningLine: [number, number][];
+    isAnimating: boolean;
 }
 
 export type GameErrorCode = 'FULL_COLUMN' | 'GAME_OVER' | 'INVALID_STATE';
