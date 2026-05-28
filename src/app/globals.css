@@ -1,0 +1,170 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --font-sans: Inter, "Segoe UI", Arial, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --background: oklch(0.982 0.018 87.2);
+  --foreground: oklch(0.228 0.041 41.7);
+  --card: oklch(0.994 0.011 82.1 / 88%);
+  --card-foreground: oklch(0.228 0.041 41.7);
+  --popover: oklch(0.994 0.011 82.1);
+  --popover-foreground: oklch(0.228 0.041 41.7);
+  --primary: oklch(0.48 0.134 25.2);
+  --primary-foreground: oklch(0.989 0.01 86.3);
+  --secondary: oklch(0.91 0.064 82.4);
+  --secondary-foreground: oklch(0.278 0.047 43.2);
+  --muted: oklch(0.943 0.035 83.5);
+  --muted-foreground: oklch(0.45 0.051 52.6);
+  --accent: oklch(0.76 0.132 155.3);
+  --accent-foreground: oklch(0.18 0.043 159.3);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.84 0.041 72.1);
+  --input: oklch(0.84 0.041 72.1);
+  --ring: oklch(0.62 0.164 28.6);
+  --chart-1: oklch(0.68 0.145 31.8);
+  --chart-2: oklch(0.73 0.125 151.4);
+  --chart-3: oklch(0.62 0.12 253.1);
+  --chart-4: oklch(0.78 0.14 84.5);
+  --chart-5: oklch(0.64 0.15 333.2);
+  --radius: 0.5rem;
+  --glass-surface: oklch(1 0 0 / 62%);
+  --glass-border: oklch(0.84 0.041 72.1 / 70%);
+  --board: oklch(0.44 0.122 249.4);
+  --board-cell: oklch(0.975 0.017 87.4);
+  --board-cell-border: oklch(0.29 0.084 249.3 / 50%);
+  --player-one: oklch(0.67 0.18 32.1);
+  --player-two: oklch(0.68 0.128 151.8);
+  --winner-ring: oklch(0.82 0.17 86.5);
+  --reward-highlight: oklch(0.66 0.16 333.1);
+  --sidebar: oklch(0.965 0.021 82.3);
+  --sidebar-foreground: oklch(0.228 0.041 41.7);
+  --sidebar-primary: oklch(0.48 0.134 25.2);
+  --sidebar-primary-foreground: oklch(0.989 0.01 86.3);
+  --sidebar-accent: oklch(0.91 0.064 82.4);
+  --sidebar-accent-foreground: oklch(0.278 0.047 43.2);
+  --sidebar-border: oklch(0.84 0.041 72.1);
+  --sidebar-ring: oklch(0.62 0.164 28.6);
+}
+
+.dark {
+  --background: oklch(0.17 0.042 280.2);
+  --foreground: oklch(0.965 0.018 88.6);
+  --card: oklch(0.244 0.052 281.1 / 84%);
+  --card-foreground: oklch(0.965 0.018 88.6);
+  --popover: oklch(0.244 0.052 281.1);
+  --popover-foreground: oklch(0.965 0.018 88.6);
+  --primary: oklch(0.76 0.15 33.7);
+  --primary-foreground: oklch(0.16 0.041 281.5);
+  --secondary: oklch(0.33 0.065 276.8);
+  --secondary-foreground: oklch(0.94 0.02 88.4);
+  --muted: oklch(0.29 0.052 278.4);
+  --muted-foreground: oklch(0.79 0.031 86.9);
+  --accent: oklch(0.75 0.124 158.2);
+  --accent-foreground: oklch(0.14 0.035 160.4);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.96 0.02 88.6 / 14%);
+  --input: oklch(0.96 0.02 88.6 / 18%);
+  --ring: oklch(0.79 0.16 35.2);
+  --chart-1: oklch(0.76 0.15 33.7);
+  --chart-2: oklch(0.75 0.124 158.2);
+  --chart-3: oklch(0.72 0.13 252.2);
+  --chart-4: oklch(0.83 0.16 86.5);
+  --chart-5: oklch(0.75 0.16 333.2);
+  --glass-surface: oklch(0.28 0.061 280.4 / 58%);
+  --glass-border: oklch(0.96 0.02 88.6 / 16%);
+  --board: oklch(0.47 0.126 249.1);
+  --board-cell: oklch(0.18 0.045 280.4);
+  --board-cell-border: oklch(0.93 0.02 88.3 / 18%);
+  --player-one: oklch(0.76 0.15 33.7);
+  --player-two: oklch(0.75 0.124 158.2);
+  --winner-ring: oklch(0.85 0.17 86.5);
+  --reward-highlight: oklch(0.78 0.16 333.2);
+  --sidebar: oklch(0.22 0.05 280.9);
+  --sidebar-foreground: oklch(0.965 0.018 88.6);
+  --sidebar-primary: oklch(0.76 0.15 33.7);
+  --sidebar-primary-foreground: oklch(0.16 0.041 281.5);
+  --sidebar-accent: oklch(0.33 0.065 276.8);
+  --sidebar-accent-foreground: oklch(0.94 0.02 88.4);
+  --sidebar-border: oklch(0.96 0.02 88.6 / 14%);
+  --sidebar-ring: oklch(0.79 0.16 35.2);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@theme inline {
+  --color-glass-surface: var(--glass-surface);
+  --color-glass-border: var(--glass-border);
+  --color-board: var(--board);
+  --color-board-cell: var(--board-cell);
+  --color-board-cell-border: var(--board-cell-border);
+  --color-player-one: var(--player-one);
+  --color-player-two: var(--player-two);
+  --color-winner-ring: var(--winner-ring);
+  --color-reward-highlight: var(--reward-highlight);
+}
+
+@layer utilities {
+  .glass-panel {
+    border-color: var(--glass-border);
+    background: var(--glass-surface);
+    box-shadow: 0 18px 60px oklch(0 0 0 / 12%);
+    backdrop-filter: blur(18px) saturate(1.25);
+  }
+}
