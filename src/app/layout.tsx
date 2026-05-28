@@ -4,7 +4,7 @@ import { AuthProvider } from "@/hooks/use-auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Connect Four Tatti",
+  title: "Tatti Connect 4",
   description: "A mobile-first Connect Four reward game shell.",
 };
 

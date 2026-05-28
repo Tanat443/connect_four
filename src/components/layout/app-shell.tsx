@@ -19,12 +19,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link
             href="/"
             className="flex min-w-0 items-center gap-2 font-semibold"
-            aria-label="Connect Four Tatti home"
+            aria-label="Tatti Connect 4 home"
           >
             <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm shadow-primary/25 ring-1 ring-primary-foreground/20">
               <CakeSlice className="size-4" aria-hidden="true" />
             </span>
-            <span className="truncate">Connect Four Tatti</span>
+            <span className="truncate">Tatti Connect 4</span>
           </Link>
 
           <nav

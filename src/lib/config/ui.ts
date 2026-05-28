@@ -1,5 +1,5 @@
 export const UI_CONFIG = {
-    dropAnimationMs: 220,
+    dropAnimationMs: 700,
     botThinkingMs: 320,
     glassBlurIntensity: '8px',
 } as const;

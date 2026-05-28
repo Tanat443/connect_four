@@ -72,6 +72,7 @@ export default function GamePage() {
                             isInteractionDisabled={isBoardInteractionDisabled}
                             winningLine={state.winningLine}
                             hintColumn={state.hintColumn}
+                            lastMove={state.lastMove}
                             onColumnSelect={dropDisc}
                         />
                     </CardContent>

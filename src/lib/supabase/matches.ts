@@ -12,6 +12,10 @@ type MatchesTable = {
 };
 
 export async function saveMatchSummary(summary: MatchSummary): Promise<AppResult<MatchSummary>> {
+    if (!summary.player_1_id) {
+        return { ok: true, data: summary };
+    }
+
     try {
         const table = supabase.from('matches') as unknown as MatchesTable;
         const { data, error } = await table

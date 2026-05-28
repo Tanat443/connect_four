@@ -10,6 +10,12 @@ export type MatchPhase = 'idle' | 'playing' | 'won' | 'draw' | 'review' | 'rewar
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type GameMode = 'local' | 'bot' | 'online';
 
+export interface LastMove {
+    row: number;
+    column: number;
+    player: Exclude<PlayerId, null>;
+}
+
 export interface MatchState {
     id: string;
     board: Board;
@@ -19,6 +25,7 @@ export interface MatchState {
     winner: PlayerId | 'draw' | null;
     winningLine: [number, number][] | null;
     isAnimating: boolean;
+    lastMove: LastMove | null;
     hintColumn: number | null;
     difficulty: Difficulty;
     mode: GameMode;

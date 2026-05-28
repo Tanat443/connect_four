@@ -2,7 +2,7 @@ import { createEmptyBoard } from '@/lib/game/board';
 import { applyMove } from '@/lib/game/rules';
 import { getHintMove } from '@/lib/game/hints';
 import { checkWin, isDraw } from '@/lib/game/win-detection';
-import { Difficulty, GameMode, MatchState, Reward } from '@/types/game';
+import { Difficulty, GameMode, LastMove, MatchState, Reward } from '@/types/game';
 
 export type MatchAction =
     | { type: 'DROP_DISC'; column: number }
@@ -26,6 +26,7 @@ export function createInitialMatchState(mode: GameMode = 'local', difficulty: Di
         reward: null,
         mode,
         isAnimating: false,
+        lastMove: null,
     };
 }
 
@@ -39,6 +40,7 @@ export function matchReducer(state: MatchState, action: MatchAction): MatchState
             return {
                 ...state,
                 isAnimating: false,
+                lastMove: null,
             };
         case 'RESET_MATCH':
             return createInitialMatchState(
@@ -88,6 +90,7 @@ function dropDisc(state: MatchState, column: number): MatchState {
     }
 
     const winResult = checkWin(result.data.board);
+    const lastMove = findLastMove(state, result.data, column);
 
     if (winResult !== null) {
         return {
@@ -96,6 +99,7 @@ function dropDisc(state: MatchState, column: number): MatchState {
             winner: winResult.winner,
             winningLine: winResult.winningLine,
             isAnimating: true,
+            lastMove,
         };
     }
 
@@ -105,5 +109,29 @@ function dropDisc(state: MatchState, column: number): MatchState {
         ...result.data,
         phase: drawResult ?? result.data.phase,
         isAnimating: true,
+        lastMove,
+    };
+}
+
+function findLastMove(previousState: MatchState, nextState: MatchState, column: number): LastMove {
+    const placedPlayer = previousState.currentPlayer === 'player2' ? 'player2' : 'player1';
+
+    for (let row = 0; row < nextState.board.length; row += 1) {
+        if (
+            previousState.board[row][column] === null &&
+            nextState.board[row][column] === placedPlayer
+        ) {
+            return {
+                row,
+                column,
+                player: placedPlayer,
+            };
+        }
+    }
+
+    return {
+        row: nextState.board.length - 1,
+        column,
+        player: placedPlayer,
     };
 }

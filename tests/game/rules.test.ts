@@ -13,6 +13,7 @@ describe('Connect Four - Core Rules', () => {
         winner: null,
         winningLine: null,
         isAnimating: false,
+        lastMove: null,
         hintColumn: null,
         mode: 'local',
         difficulty: 'easy',

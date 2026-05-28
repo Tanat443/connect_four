@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tatti Connect 4
 
-## Getting Started
+Tatti Connect 4 - современная веб-платформа для игры в "Четыре в ряд", сделанная не просто как очередная браузерная версия классической игры, а как продуктовая механика для маркетплейса тортов.
 
-First, run the development server:
+Идея: пользователь уже сделал заказ и ждет доставку. Вместо пассивного ожидания он может сыграть короткий стратегический матч, получить подсказку, победить бота, заработать бейдж или промокод и вернуться в сервис с более приятным ощущением.
+
+## Ссылки
+
+- Рабочий проект: https://connect-four-tatti.vercel.app
+- GitHub-репозиторий: https://github.com/Tanat443/connect_four
+
+## Что сделано
+
+### Уровень "Слабый"
+
+- [x] Есть игровая сетка 7x6.
+- [x] Есть визуальное отображение фишек игроков.
+- [x] Игра работает в браузере как веб-приложение.
+
+### Уровень "Средний"
+
+- [x] Фишки падают вниз по выбранной колонке.
+- [x] Игроки ходят по очереди.
+- [x] Нельзя поставить фишку в заполненную колонку.
+- [x] Определяется победа по горизонтали.
+- [x] Определяется победа по вертикали.
+- [x] Определяется победа по диагонали.
+- [x] Определяется ничья.
+- [x] Есть режим игры вдвоем на одном экране.
+- [x] Логика игры вынесена отдельно от UI и покрыта тестами.
+
+### Уровень "Сильный"
+
+- [x] Есть игра против бота.
+- [x] Есть несколько уровней сложности: Easy, Medium и Hard.
+- [x] Есть подсказка лучшего хода.
+- [x] Есть подсветка победной линии.
+- [x] Есть темная и светлая темы.
+- [x] Интерфейс адаптирован под телефон и десктоп.
+- [x] Есть Supabase-интеграция.
+- [x] Есть авторизация через Supabase.
+- [x] Есть профили пользователей.
+- [x] Есть сохранение результатов матчей.
+- [x] Есть задел под историю матчей, лидерборд и награды.
+
+### Уровень "Великий"
+
+- [x] Есть уникальная ниша: Connect Four как gamified loyalty-механика для клиентов маркетплейса тортов.
+- [x] Есть социальный слой в продуктовой концепции: городской лидерборд и страница Leaderboard.
+- [x] Есть reward loop: бейджи и промокоды за победы и достижения.
+- [x] Есть продуктовая ценность для бизнеса: удержание пользователя во время ожидания доставки.
+- [x] Есть основа для AI Coach: тактический анализ позиции, подсказки, поиск сильного хода и выявление угроз.
+- [ ] Мультиплеер по ссылке через WebSockets пока не реализован.
+- [ ] Полный AI Coach с текстовым разбором партии после игры пока не реализован.
+- [ ] Stripe / Upgrade to Pro пока не подключен.
+- [ ] Кастомные платные скины пока не реализованы.
+
+## Для кого
+
+Проект рассчитан на клиентов онлайн-маркетплейса тортов, особенно на пользователей 16-35 лет, которые уже сделали заказ и ждут доставку. Игра не требует установки, быстро запускается в браузере и подходит для коротких игровых сессий с телефона.
+
+## Почему это ценно
+
+Обычное ожидание заказа - пустой промежуток. Tatti Connect 4 превращает его в маленькую стратегическую дуэль с эмоцией, прогрессом и наградой.
+
+Для пользователя это способ приятно провести несколько минут и получить бонус. Для маркетплейса это инструмент вовлечения, retention-механика и основа для будущей программы лояльности.
+
+## Технологии
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Supabase
+- Vitest
+- Vercel
+
+## Запуск локально
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+После запуска проект будет доступен по адресу:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Для работы Supabase нужно создать `.env.local` по примеру `.env.example`:
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Проверка
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+npm run typecheck
+npx vitest
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Что можно развить дальше
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+В рамках дедлайна основной фокус был на рабочей игре, чистой логике, боте, подсказках, Supabase и продуктовой идее. Чуть больше времени позволило бы довести проект до уровня полноценного стартап-прототипа: добавить мультиплеер по ссылке, текстовый AI Coach после матча, Stripe и магазин скинов. Архитектура уже подготовлена так, чтобы эти функции можно было наращивать дальше.

@@ -13,6 +13,7 @@ describe('Connect Four - Match Reducer', () => {
             winner: null,
             winningLine: null,
             isAnimating: false,
+            lastMove: null,
             hintColumn: null,
             mode: 'local',
             difficulty: 'easy',
@@ -31,6 +32,7 @@ describe('Connect Four - Match Reducer', () => {
         expect(nextState.currentPlayer).toBe('player2');
         expect(nextState.moves).toEqual([3]);
         expect(nextState.isAnimating).toBe(true);
+        expect(nextState.lastMove).toEqual({ row: 5, column: 3, player: 'player1' });
     });
 
     it('ignores drop actions while animation is locked', () => {
@@ -48,11 +50,13 @@ describe('Connect Four - Match Reducer', () => {
             ...createInitialMatchState(),
             phase: 'playing',
             isAnimating: true,
+            lastMove: { row: 5, column: 0, player: 'player1' },
         } satisfies MatchState;
 
         expect(matchReducer(state, { type: 'FINISH_ANIMATION' })).toEqual({
             ...state,
             isAnimating: false,
+            lastMove: null,
         });
     });
 

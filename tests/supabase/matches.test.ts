@@ -47,7 +47,30 @@ describe('Supabase Persistence', () => {
         }
     });
 
-    it('handles Supabase errors gracefully', async () => {
+    it('skips Supabase persistence for guest matches', async () => {
+        const { supabase } = await import('@/lib/supabase/client');
+        vi.mocked(supabase.from).mockClear();
+
+        const summary: MatchSummary = {
+            id: 'guest-uuid',
+            game_mode: 'local',
+            player_1_id: null,
+            player_2_id: null,
+            bot_difficulty: null,
+            status: 'won',
+            winner_id: null,
+            move_count: 10,
+            coach_insight: null,
+            reward_label: null,
+        };
+
+        const result = await saveMatchSummary(summary);
+
+        expect(result.ok).toBe(true);
+        expect(supabase.from).not.toHaveBeenCalled();
+    });
+
+    it('handles Supabase errors gracefully for signed-in matches', async () => {
         const { supabase } = await import('@/lib/supabase/client');
         vi.mocked(supabase.from).mockReturnValueOnce({
             insert: vi.fn(() => ({
@@ -63,11 +86,11 @@ describe('Supabase Persistence', () => {
         const summary: MatchSummary = {
             id: 'fail-uuid',
             game_mode: 'local',
-            player_1_id: null,
+            player_1_id: 'user-uuid',
             player_2_id: null,
             bot_difficulty: null,
             status: 'won',
-            winner_id: null,
+            winner_id: 'user-uuid',
             move_count: 10,
             coach_insight: null,
             reward_label: null,
